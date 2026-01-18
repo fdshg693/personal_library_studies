@@ -1,4 +1,4 @@
-# Connection errorが解消できない
+# 事前にlitellm --config path/to/config.yaml --detailed_debugでプロキシサーバーを起動しておくこと
 
 import openai  # openai v1.0.0+
 
