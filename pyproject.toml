@@ -5,5 +5,5 @@ description = "あれこれライブラリを試していく"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "litellm>=1.81.0",
+    "litellm[proxy]>=1.81.0",
 ]
