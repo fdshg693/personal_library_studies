@@ -1,0 +1,22 @@
+# 環境変数ファイル
+.env
+
+# データディレクトリ
+data/
+pgdata/
+
+# ログファイル
+*.log
+log/
+
+# バックアップファイル
+*.backup
+*.sql.gz
+backups/
+
+# pgAdmin設定
+pgadmin/
+
+# OS固有
+.DS_Store
+Thumbs.db
