@@ -9,4 +9,6 @@ dependencies = [
     "llama-index>=0.14.13",
     "llama-index-readers-database>=0.5.1",
     "psycopg2>=2.9.11",
+    "python-dotenv>=1.1.0",
+    "smolagents[toolkit]",
 ]
