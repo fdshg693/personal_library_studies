@@ -1,5 +1,10 @@
 # WEB上のリソース
 
+
+## smolagents
+- Github
+    - https://github.com/huggingface/smolagents
+    
 ## a2a
 
 - SDK
