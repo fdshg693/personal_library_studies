@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "mcp-app": {
+      "type": "stdio",
+      "command": "npm",
+      "args": ["run", "start:stdio"],
+      "cwd": "${workspaceFolder}/mcp-app"
+    }
+  }
+}
