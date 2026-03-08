@@ -9,9 +9,9 @@ import path from "node:path";
 
 const DIST_DIR = path.join(import.meta.dirname, "dist");
 
-/**
- * Creates a new MCP server instance with tools and resources registered.
- */
+// ユーザーがボタンをクリックするまでツール結果を保留するための共有ステート
+let pendingResolver: ((value: string) => void) | null = null;
+
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "Quickstart MCP App Server",
@@ -31,13 +31,26 @@ export function createServer(): McpServer {
       title: "Get Time",
       description: "Returns the current server time.",
       inputSchema: {},
-      _meta: { ui: { resourceUri } }, // Links this tool to its UI resource
+      _meta: { ui: { resourceUri } },
     },
     async () => {
-      const time = new Date().toISOString();
+      // ユーザーがUIのボタンをクリックするまで結果を返さない
+      const time = await new Promise<string>((resolve) => {
+        pendingResolver = resolve;
+      });
       return { content: [{ type: "text", text: time }] };
     },
   );
+
+  // UIからのみ呼ばれる。保留中のget-timeを解決する
+  server.tool("confirm-time", {}, async () => {
+    const time = new Date().toISOString();
+    if (pendingResolver) {
+      pendingResolver(time);
+      pendingResolver = null;
+    }
+    return { content: [{ type: "text", text: time }] };
+  });
 
   // Register the resource, which returns the bundled HTML/JavaScript for the UI.
   registerAppResource(

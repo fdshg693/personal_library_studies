@@ -7,19 +7,23 @@ const getTimeBtn = document.getElementById("get-time-btn")!;
 // Create app instance
 const app = new App({ name: "Get Time App", version: "1.0.0" });
 
-// Handle tool results from the server. Set before `app.connect()` to avoid
-// missing the initial tool result.
+// AIがツールを呼び出したらボタンを有効化して待機状態にする
+app.ontoolinput = () => {
+  serverTimeEl.textContent = "Click the button to get the time";
+  (getTimeBtn as HTMLButtonElement).disabled = false;
+};
+
+// ツール結果が返ってきたら表示する
 app.ontoolresult = (result) => {
   const time = result.content?.find((c) => c.type === "text")?.text;
   serverTimeEl.textContent = time ?? "[ERROR]";
 };
 
-// Wire up button click
+// ボタンクリックでサーバーの保留中のツール呼び出しを解決する
 getTimeBtn.addEventListener("click", async () => {
-  // `app.callServerTool()` lets the UI request fresh data from the server
-  const result = await app.callServerTool({ name: "get-time", arguments: {} });
-  const time = result.content?.find((c) => c.type === "text")?.text;
-  serverTimeEl.textContent = time ?? "[ERROR]";
+  (getTimeBtn as HTMLButtonElement).disabled = true;
+  serverTimeEl.textContent = "Loading...";
+  await app.callServerTool({ name: "confirm-time", arguments: {} });
 });
 
 // Connect to host
