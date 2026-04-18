@@ -2,6 +2,7 @@
 config.yaml
 *.env
 *.db
+.adk
 
 # node系
 node_modules
